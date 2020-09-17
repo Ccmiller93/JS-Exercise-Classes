@@ -41,9 +41,36 @@ class Airplane {
 */
 
 class Person {
+  constructor(stats) {
+    this.name = stats.name;
+    this.age = stats.age;
+    this.stomach = [];
+  };
+  eat = function (edible) {
+    if (this.stomach.length < 10) {
+      this.stomach.push(edible);
+    }};
+  poop = function () {
+      this.stomach = [];
+    };
+  toString = function () {
+      return `${this.name}, ${this.age}`;
+    };
+  };
+  const personOne = new Person({
+    name: 'Chase',
+    age: 27,
+  });
+  personOne.eat('Bread')
+  personOne.eat('Pizza')
+  personOne.eat('Steak')
+  personOne.eat('Sushi')
+  console.log(personOne.stomach)
+  personOne.poop()
+  console.log(personOne.stomach)
 
-}
 
+  console.log(personOne);
 /*
   TASK 2
     - Write a Car class whose constructor initializes `model` and `milesPerGallon` from arguments.
@@ -59,8 +86,42 @@ class Person {
 */
 
 class Car {
-
+  constructor(info) {
+    this.model = info.model;
+    this.milesPerGallon = info.milesPerGallon;
+    this.tank = 0;
+    this.odometer = 0; 
+  }
+  fill = function (gallons) {
+    return this.tank += gallons;
+  }
+  drive(distance) {
+    if (this.tank === 0) { return `I ran out of fuel at ${this.odometer} miles!` }
+    else if (distance < (this.tank * this.milesPerGallon)) {
+      this.odometer = this.odometer + distance;
+      console.log(this.odometer)
+      console.log(distance)
+      this.tank = this.tank - distance / this.milesPerGallon;
+    } else {
+      this.odometer = this.odometer + this.tank * this.milesPerGallon;
+      this.tank = 0;
+      console.log(this.odometer)
+      console.log(distance)
+      return `I ran out of fuel at ${this.odometer}`
+    } 
+  }
 }
+const newCar = new Car({
+  model: 'Ford',
+  milesPerGallon: 20,
+})
+console.log(newCar)
+newCar.fill(20)
+console.log(newCar)
+newCar.drive(30)
+console.log(newCar)
+console.log(newCar.drive(700))
+
 
 /*
   TASK 3
@@ -75,9 +136,21 @@ class Car {
         + {name} and {location} of course come from the instance's own properties.
 */
 class Lambdasian {
-
+  constructor(props) {
+    this.name = props.name;
+    this.age = props.age;
+    this.location = props.location;
+  }
+  speak() {
+    return `Hello my name is ${this.name}, I am from ${this.location}`
+  }
 }
-
+const student1 = new Lambdasian({
+  name: 'Chase',
+  age: 27,
+  location: 'NC',
+});
+console.log(student1.speak())
 /*
   TASK 4
     - Write an Instructor class extending Lambdasian.
@@ -92,10 +165,29 @@ class Lambdasian {
         + `demo` receives a `subject` string as an argument and returns the phrase 'Today we are learning about {subject}' where subject is the param passed in.
         + `grade` receives a `student` object and a `subject` string as arguments and returns '{student.name} receives a perfect score on {subject}'
 */
-class Instructor {
-
+class Instructor extends Lambdasian {
+  constructor(props) {
+    super(props);
+    this.specialty = props.specialty; 
+    this.favLanguage = props.favLanguage;
+    this.catchPhrase = props.catchPhrase;
+  }
+  demo(subject) {
+    return `Today we are learning about ${this.specialty}`
+  }
+  grade(student, subject) {
+    return `${this.name} receives a perfect score on ${this.specialty}`
+  }
 }
-
+const instructor = new Instructor({
+  name: 'Bobert',
+  age: 57,
+  location: 'Alaska',
+  specialty: 'JS',
+  favLanguage: 'Python',
+  catchPhrase: 'It ain.t a party till ya rip bandaids off your !@#$@#'
+});
+console.log(instructor.grade())
 /*
   TASK 5
     - Write a Student class extending Lambdasian.
